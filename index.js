@@ -25,8 +25,22 @@ var defaultOptions = {
     }
   },
 
-  attachRoute: function(router, route, schema) {
+  attachRoute: function(router, route) {
+    var routes = router.routes
 
+    for (var i = 0, len = routes.length; i < len; i++) {
+      var targetRoute = routes[i]
+
+      if (targetRoute.method !== route.method) {
+        continue
+      }
+
+      if (targetRoute.route !== route.route) {
+        continue
+      }
+
+      targetRoute.middlewares.unshift(route.validateMiddleware)
+    }
   }
 }
 
@@ -150,12 +164,16 @@ KoaRouteSchema.prototype.middleware = function middleware() {
 /** 
  * ######################################
  * mode tow: attach to other router middleware
- * high performance
+ * high performance, need `route in attached router` be same with `route in schemaOptions` exactly
  * 
  */
 
 KoaRouteSchema.prototype.attachToRouter = function(router) {
+  var _this = this
 
+  this.routes.forEach(function(route) {
+    _this.options.attachRoute(router, route)
+  })
 }
 
 /**
