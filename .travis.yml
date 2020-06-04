@@ -1,0 +1,19 @@
+sudo: false
+language: node_js
+
+node_js:
+  - "node"
+  - "12"
+  - "8"
+  - "6"
+  - "4"
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - node_js: "4"
+
+notifications:
+  email: false
+
+after_success: npm run report-coverage
