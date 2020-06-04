@@ -45,10 +45,11 @@ var defaultOptions = {
 }
 
 /**
- *
+ * KoaRouteSchema class
  *
  * @param {Object} options
- * @returns
+ * @param {Object} options.ajv ajv options
+ * @param {Object} options.schemaOptions provide schemaOptions in constructor
  */
 function KoaRouteSchema(options) {
   if (!(this instanceof KoaRouteSchema)) {
@@ -60,8 +61,8 @@ function KoaRouteSchema(options) {
   this.route = utils.pathMatch({ prefix: '/' })
   this.routes = []
 
-  if (this.options.attach) {
-
+  if (this.options.schemaOptions) {
+    this.loadSchemaOptions(this.options.schemaOptions)
   }
 }
 
