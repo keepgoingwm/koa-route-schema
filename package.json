@@ -7,7 +7,8 @@
   "author": "Awam Wang <@keepgoingwm> (https://keepgoingwm.github.io/)",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint index.js utils.js",
+    "lint": "eslint index.js utils.js ./examples",
+    "lint:fix": "eslint index.js utils.js ./examples --fix",
     "test": "echo 'test'"
   },
   "dependencies": {

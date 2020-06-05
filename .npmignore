@@ -1,3 +1,5 @@
+/.vscode
+/examples
 .travis.*
 eslint.*
 TODO.md

@@ -51,7 +51,11 @@ var defaultOptions = {
   queryErrorPrefix: 'query: ',
 
   onError: function(err, ctx) {
-    ctx.throw(400, ctx.routeSchemaErrors.map(function(e) { return e.message }).join(', '))
+    if (err.message === 'RouteSchemaErrors') {
+      ctx.throw(400, ctx.routeSchemaErrors.map(function(e) { return e.message }).join(', '))
+    } else {
+      throw err
+    }
   }
 }
 
@@ -79,7 +83,7 @@ function KoaRouteSchema(options) {
 
 /**
  * generate schema validate middleware
- * 
+ *
  * handle errors Example
  * ```js
  * ```
@@ -126,7 +130,7 @@ KoaRouteSchema.prototype.genMiddlewareFromSchema = function(bodySchema, querySch
 }
 
 /**
- * load schema 
+ * load schema
  * ```
  *  schema.loadSchemaOptions([{
  *    route: 'test/:id',
@@ -134,7 +138,7 @@ KoaRouteSchema.prototype.genMiddlewareFromSchema = function(bodySchema, querySch
  *    schema: {"type":"object","properties":{"content":{"type":"string","title":"内容","minLength":0,"maxLength":5000},"type":{"type":"string","title":"类型","mock":{"mock":"@string"},"minLength":1,"maxLength":20,"enum":["example","hexo","weibo"]}},"required":["content","type"]}
  *  }])
  * ```
- * 
+ *
  * @param {Object} schemaOptions
  */
 KoaRouteSchema.prototype.loadSchemaOptions = function(schemaOptions) {
@@ -182,11 +186,11 @@ KoaRouteSchema.prototype.loadSchemaOptions = function(schemaOptions) {
   })
 }
 
-/** 
+/**
  * ######################################
  * mode one: standalone middleware
  * low performance
- * 
+ *
  */
 KoaRouteSchema.prototype.middleware = function middleware() {
   var _this = this
@@ -213,17 +217,17 @@ KoaRouteSchema.prototype.middleware = function middleware() {
 
     // called when request path not found on routes
     // ensure calling next middleware which is after the router
-    return typeof _this.options.notFound === 'function' ?
-      _this.options.notFound(ctx, next) :
-      next()
+    return typeof _this.options.notFound === 'function'
+      ? _this.options.notFound(ctx, next)
+      : next()
   }
 }
 
-/** 
+/**
  * ######################################
  * mode tow: attach to other router middleware
  * high performance, need `route in attached router` be same with `route in schemaOptions` exactly
- * 
+ *
  */
 
 KoaRouteSchema.prototype.attachToRouter = function(router) {

@@ -2,10 +2,11 @@ const Koa = require('koa')
 const koaBody = require('koa-body')
 const routeschema = require('./schema')
 
-let app = new Koa()
+const app = new Koa()
 
 app.use(koaBody({
   onError: (err, ctx) => {
+    console.log(err)
     ctx.throw('body parse error', 422)
   }
 }))
