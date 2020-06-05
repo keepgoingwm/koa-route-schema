@@ -24,4 +24,16 @@ utils.createPrefix = function createPrefix(prefix, pathname) {
   return clean + '/' + path
 }
 
+utils.parseString = function(str) {
+  if (typeof str === 'string') {
+    try {
+      str = JSON.parse(str)
+    } catch (e) {
+      str = null
+    }
+  }
+
+  return str
+}
+
 module.exports = utils

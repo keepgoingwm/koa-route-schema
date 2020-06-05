@@ -561,6 +561,10 @@ koa-compose@^3.0.0:
   dependencies:
     any-promise "^1.1.0"
 
+koa-compose@^4.1.0:
+  version "4.1.0"
+  resolved "http://10.158.249.13:4873/koa-compose/-/koa-compose-4.1.0.tgz#507306b9371901db41121c812e923d0d67d3e877"
+
 koa-convert@^1.2.0:
   version "1.2.0"
   resolved "http://10.158.249.13:4873/koa-convert/-/koa-convert-1.2.0.tgz#da40875df49de0539098d1700b50820cebcd21d0"

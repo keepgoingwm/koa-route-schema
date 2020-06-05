@@ -16,10 +16,14 @@ var defaultOptions = {
   getSchema: function(o) {
     return o.schema
   },
+  getBodySchema: null,
+  getQuerySchema: null,
 
-  getData: function(ctx) {
-    if (ctx.method === 'GET') {
+  getData: function(ctx, type) {
+    if (type === 'query') {
       return ctx.query
+    } else if (type === 'body') {
+      return ctx.request.body
     } else {
       return ctx.request.body
     }
@@ -27,6 +31,7 @@ var defaultOptions = {
 
   attachRoute: function(router, route) {
     var routes = router.routes
+    var prefix = router.options.prefix
 
     for (var i = 0, len = routes.length; i < len; i++) {
       var targetRoute = routes[i]
@@ -35,12 +40,21 @@ var defaultOptions = {
         continue
       }
 
-      if (targetRoute.route !== route.route) {
+      var prefixed = utils.createPrefix(prefix, targetRoute.route)
+      if (!route.match(prefixed)) {
         continue
       }
 
       targetRoute.middlewares.unshift(route.validateMiddleware)
     }
+  },
+
+  bodyErrorPrefix: 'body: ',
+  queryErrorPrefix: 'query: ',
+
+  onError: function(err, ctx) {
+    ctx.status = 400
+    ctx.body = ctx.routeSchemaErrors.map(e => e.message).join(', ')
   }
 }
 
@@ -66,16 +80,59 @@ function KoaRouteSchema(options) {
   }
 }
 
-KoaRouteSchema.prototype.genMiddlewareFromSchema = function(schema) {
+/**
+ * generate schema validate middleware
+ * 
+ * handle errors Example
+ * ```js
+ *  this.app.on('error', (err: Error, ctx: Context) => {
+ *    if (err.message === 'RouteSchemaErrors') {
+ *      // If validation errors, errors will store in `ctx.routeSchemaErrors`.
+ *      ctx.body = ctx.routeSchemaErrors.map(e => e.message).join(', ')
+ *    } else {
+ *      console.log(err);
+ *    }
+ *  })
+ * ```
+ */
+KoaRouteSchema.prototype.genMiddlewareFromSchema = function(bodySchema, querySchema) {
   var _this = this
-  var validate = this.ajv.compile(schema)
+  var bodyValidate
+  var queryValidate
+  if (bodySchema) {
+    bodyValidate = this.ajv.compile(bodySchema)
+  }
+  if (querySchema) {
+    queryValidate = this.ajv.compile(querySchema)
+  }
 
   return function(ctx, next) {
-    var valid = validate(_this.options.getData(ctx))
-    if (!valid) {
-      ctx.routeSchemaErrors = validate.errors
-      throw new Error('RouteSchemaErrors')
+    // console.log(ctx.path, bodyValidate, queryValidate)
+    function callValidate(validate, type) {
+      if (!validate) {
+        return
+      }
+
+      var valid = validate(_this.options.getData(ctx, type))
+      // console.log(validate, valid)
+
+      if (!valid) {
+        var errorPrefix = type === 'body' ? _this.options.bodyErrorPrefix : _this.options.queryErrorPrefix
+        ctx.routeSchemaErrors = validate.errors.map(function(err) {
+          err.message = errorPrefix + err.message
+          return err
+        })
+
+        if (typeof _this.options.onError === 'function') {
+          _this.options.onError(new Error('RouteSchemaErrors'), ctx)
+        } else {
+          throw new Error('RouteSchemaErrors')
+        }
+      }
     }
+
+    callValidate(bodyValidate, 'body')
+    callValidate(queryValidate, 'query')
 
     next()
   }
@@ -103,23 +160,36 @@ KoaRouteSchema.prototype.loadSchemaOptions = function(schemaOptions) {
   options.forEach(function(option) {
     var route = _this.options.getRoute(option)
     var method = _this.options.getMethod(option) || 'GET'
-    var schema = _this.options.getSchema(option)
-    if (typeof schema === 'string') {
-      try {
-        schema = JSON.parse(schema)
-      } catch (e) {
-        schema = null
+
+    // handle both body and query schema validate,
+    // apply validating only if the corresponding schema exists
+    var bodySchema
+    var querySchema
+    if (_this.options.getBodySchema) {
+      bodySchema = utils.parseString(_this.options.getBodySchema(option))
+    }
+    if (_this.options.getQuerySchema) {
+      querySchema = utils.parseString(_this.options.getQuerySchema(option))
+    }
+
+    // get default schema
+    if (!bodySchema && !querySchema) {
+      if (/POST|PUT|PATCH/.test(method)) {
+        bodySchema = utils.parseString(_this.options.getSchema(option))
+      } else {
+        querySchema = utils.parseString(_this.options.getSchema(option))
       }
     }
 
     var prefixed = utils.createPrefix(_this.options.prefix, route)
-    if (route && schema) {
+    if (route && (bodySchema || querySchema)) {
       _this.routes.push({
         route: route,
         method: method.toUpperCase(),
-        schema: schema,
+        bodySchema: bodySchema,
+        querySchema: querySchema,
         match: _this.route(prefixed),
-        validateMiddleware: _this.genMiddlewareFromSchema(schema)
+        validateMiddleware: _this.genMiddlewareFromSchema(bodySchema, querySchema)
       })
     }
   })
@@ -138,6 +208,7 @@ KoaRouteSchema.prototype.middleware = function middleware() {
     for (var i = 0, len = _this.routes.length; i < len; i++) {
       var route = _this.routes[i]
 
+      console.log('sdf', ctx.method, route.method, route.match(ctx.path, ctx.params))
       if (ctx.method !== route.method) {
         continue
       }
