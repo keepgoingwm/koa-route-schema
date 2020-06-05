@@ -4,8 +4,6 @@ var Ajv = require('ajv')
 var utils = require('./utils')
 
 var defaultOptions = {
-  attach: false,
-
   parseSchemaOptions: null,
   getRoute: function(o) {
     return o.route
@@ -85,14 +83,6 @@ function KoaRouteSchema(options) {
  * 
  * handle errors Example
  * ```js
- *  this.app.on('error', (err: Error, ctx: Context) => {
- *    if (err.message === 'RouteSchemaErrors') {
- *      // If validation errors, errors will store in `ctx.routeSchemaErrors`.
- *      ctx.body = ctx.routeSchemaErrors.map(e => e.message).join(', ')
- *    } else {
- *      console.log(err);
- *    }
- *  })
  * ```
  */
 KoaRouteSchema.prototype.genMiddlewareFromSchema = function(bodySchema, querySchema) {
@@ -107,14 +97,12 @@ KoaRouteSchema.prototype.genMiddlewareFromSchema = function(bodySchema, querySch
   }
 
   return function(ctx, next) {
-    // console.log(ctx.path, bodyValidate, queryValidate)
     function callValidate(validate, type) {
       if (!validate) {
         return
       }
 
       var valid = validate(_this.options.getData(ctx, type))
-      // console.log(validate, valid)
 
       if (!valid) {
         var errorPrefix = type === 'body' ? _this.options.bodyErrorPrefix : _this.options.queryErrorPrefix
@@ -208,7 +196,6 @@ KoaRouteSchema.prototype.middleware = function middleware() {
     for (var i = 0, len = _this.routes.length; i < len; i++) {
       var route = _this.routes[i]
 
-      console.log('sdf', ctx.method, route.method, route.match(ctx.path, ctx.params))
       if (ctx.method !== route.method) {
         continue
       }
