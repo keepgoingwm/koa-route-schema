@@ -1,0 +1,5 @@
+.travis.*
+eslint.*
+TODO.md
+.eslintignore
+.editorconfig
