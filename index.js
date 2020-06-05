@@ -51,8 +51,7 @@ var defaultOptions = {
   queryErrorPrefix: 'query: ',
 
   onError: function(err, ctx) {
-    ctx.status = 400
-    ctx.body = ctx.routeSchemaErrors.map(e => e.message).join(', ')
+    ctx.throw(400, ctx.routeSchemaErrors.map(e => e.message).join(', '))
   }
 }
 
@@ -96,7 +95,7 @@ KoaRouteSchema.prototype.genMiddlewareFromSchema = function(bodySchema, querySch
     queryValidate = this.ajv.compile(querySchema)
   }
 
-  return function(ctx, next) {
+  return async function(ctx, next) {
     function callValidate(validate, type) {
       if (!validate) {
         return
@@ -122,7 +121,7 @@ KoaRouteSchema.prototype.genMiddlewareFromSchema = function(bodySchema, querySch
     callValidate(bodyValidate, 'body')
     callValidate(queryValidate, 'query')
 
-    next()
+    return next()
   }
 }
 
