@@ -1,4 +1,5 @@
 /node_modules/*
 
-eslint.json
 README.md
+
+index.d.ts

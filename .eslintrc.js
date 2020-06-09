@@ -11,7 +11,6 @@ module.exports = {
   },
   extends: 'eslint-config-standard',
   rules: {
-    semi: 0,
     'no-multiple-empty-lines': 0,
     'no-new': 0,
     'padded-blocks': 0,
