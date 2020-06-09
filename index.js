@@ -257,4 +257,19 @@ KoaRouteSchema.prototype.legacyMiddleware = function legacyMiddleware() {
   return utils.convert.back(_this.middleware())
 }
 
+/**
+ * #################################################################################
+ * middleware for each route
+ * #################################################################################
+ */
+KoaRouteSchema.prototype.routeMiddleware = function routeMiddleware(bodySchema, querySchema) {
+  return this.genMiddlewareFromSchema(bodySchema, querySchema)
+}
+KoaRouteSchema.prototype.routeBodyMiddleware = function routeMiddleware(schema) {
+  return this.routeMiddleware(schema, null)
+}
+KoaRouteSchema.prototype.routeQueryMiddleware = function routeMiddleware(schema) {
+  return this.routeMiddleware(null, schema)
+}
+
 module.exports = KoaRouteSchema

@@ -16,3 +16,5 @@ app.use((ctx, next) => {
 })
 
 app.listen(3002)
+
+console.log('App listen on http://localhost:3002')

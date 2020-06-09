@@ -755,6 +755,12 @@ esutils@^2.0.2:
   version "2.0.3"
   resolved "http://10.158.249.13:4873/esutils/-/esutils-2.0.3.tgz#74d2eb4de0b8da1293711910d50775b9b710ef64"
 
+extend-shallow@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/extend-shallow/-/extend-shallow-2.0.1.tgz#51af7d614ad9a9f610ea1bafbb989d6b1c56890f"
+  dependencies:
+    is-extendable "^0.1.0"
+
 extend-shallow@^3.0.2:
   version "3.0.2"
   resolved "http://10.158.249.13:4873/extend-shallow/-/extend-shallow-3.0.2.tgz#26a71aaf073b39fb2127172746131c2704028db8"
@@ -987,6 +993,16 @@ is-date-object@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/is-date-object/-/is-date-object-1.0.2.tgz#bda736f2cd8fd06d32844e7743bfa7494c3bfd7e"
 
+is-es6-generator-function@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/is-es6-generator-function/-/is-es6-generator-function-1.0.0.tgz#fb7f8ca143d90b63d248fb30a396f6f79aa5db7b"
+  dependencies:
+    is-generator-function-name "~1.0.0"
+
+is-extendable@^0.1.0:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/is-extendable/-/is-extendable-0.1.1.tgz#62b110e289a471418e3ec36a617d472e301dfc89"
+
 is-extendable@^1.0.1:
   version "1.0.1"
   resolved "http://10.158.249.13:4873/is-extendable/-/is-extendable-1.0.1.tgz#a7470f9e426733d81bd81e1155264e3a3507cab4"
@@ -1004,6 +1020,10 @@ is-fullwidth-code-point@^2.0.0:
 is-fullwidth-code-point@^3.0.0:
   version "3.0.0"
   resolved "http://10.158.249.13:4873/is-fullwidth-code-point/-/is-fullwidth-code-point-3.0.0.tgz#f116f8064fe90b3f7844a38997c0b75051269f1d"
+
+is-generator-function-name@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/is-generator-function-name/-/is-generator-function-name-1.0.0.tgz#254fff9ff56b5dd9a78c129453ab19e593b62f3e"
 
 is-generator-function@^1.0.7:
   version "1.0.7"
@@ -1088,6 +1108,18 @@ kind-of@^3.0.2:
   dependencies:
     is-buffer "^1.1.5"
 
+koa-better-router@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/koa-better-router/-/koa-better-router-2.1.1.tgz#8498664659204bedfb7cb72f99c8ca1f17d6628f"
+  dependencies:
+    extend-shallow "^2.0.1"
+    is-es6-generator-function "^1.0.0"
+    koa-compose "^3.1.0"
+    koa-convert "^1.2.0"
+    lazy-cache "^2.0.1"
+    methods "^1.1.2"
+    path-match "^1.2.4"
+
 koa-body@^4.1.3:
   version "4.1.3"
   resolved "https://registry.yarnpkg.com/koa-body/-/koa-body-4.1.3.tgz#1381c91bd2def7044ba790045bf3cfb2cdbb4c51"
@@ -1096,7 +1128,7 @@ koa-body@^4.1.3:
     co-body "^5.1.1"
     formidable "^1.1.1"
 
-koa-compose@^3.0.0:
+koa-compose@^3.0.0, koa-compose@^3.1.0:
   version "3.2.1"
   resolved "http://10.158.249.13:4873/koa-compose/-/koa-compose-3.2.1.tgz#a85ccb40b7d986d8e5a345b3a1ace8eabcf54de7"
   dependencies:
@@ -1145,7 +1177,7 @@ koa@^2.12.0:
     type-is "^1.6.16"
     vary "^1.1.2"
 
-lazy-cache@^2.0.2:
+lazy-cache@^2.0.1, lazy-cache@^2.0.2:
   version "2.0.2"
   resolved "http://10.158.249.13:4873/lazy-cache/-/lazy-cache-2.0.2.tgz#b9190a4f913354694840859f8a8f7084d8822264"
   dependencies:
@@ -1181,6 +1213,10 @@ lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15:
 media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
+
+methods@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
 
 mime-db@1.44.0:
   version "1.44.0"

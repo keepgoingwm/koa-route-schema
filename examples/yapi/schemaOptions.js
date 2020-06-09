@@ -81,9 +81,9 @@ module.exports = [{
     __v: 0,
     desc: '',
     markdown: '',
-    req_body_other: '{\'type\':\'object\',\'properties\':{\'content\':{\'type\':\'string\',\'title\':\'内容\',\'minLength\':0,\'maxLength\':5000},\'type\':{\'type\':\'string\',\'title\':\'类型\',\'mock\':{\'mock\':\'@string\'},\'minLength\':1,\'maxLength\':20,\'enum\':[\'example\',\'hexo\',\'weibo\']}},\'required\':[\'content\',\'type\']}',
+    req_body_other: '{"type":"object","properties":{"content":{"type":"string","title":"内容","minLength":0,"maxLength":5000},"type":{"type":"string","title":"类型","mock":{"mock":"@string"},"minLength":1,"maxLength":20,"enum":["example","hexo","weibo"]}},"required":["content","type"]}',
     req_body_type: 'json',
-    res_body: '{\'type\':\'object\',\'title\':\'title\',\'properties\':{\'code\':{\'type\':\'integer\'},\'result\':{\'type\':\'string\'}},\'required\':[\'code\',\'result\']}'
+    res_body: '{"type":"object","title":"title","properties":{"code":{"type":"integer"},"result":{"type":"string"}},"required":["code","result"]}'
   },
   {
     query_path: {
