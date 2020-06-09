@@ -2,7 +2,7 @@ import * as Koa from 'koa'
 
 // plugin to Koa.Context
 declare module 'koa' {
-  interface Context extends Koa.Context {
+  interface Context {
     routeSchemaErrors?: Error[]
   }
 }
@@ -38,6 +38,10 @@ declare class KoaRouteSchema {
   middleware: Koa.Middleware
   legacyMiddleware: Koa.Middleware
   attachToRouter(router: Record<string, unknown>): void
+
+  routeMiddleware(bodySchema: Record<string, unknown>, querySchema: Record<string, unknown>): Koa.Middleware
+  routeBodyMiddleware(schema: Record<string, unknown>): Koa.Middleware
+  routeQueryMiddleware(schema: Record<string, unknown>): Koa.Middleware
 }
 declare function KoaRouteSchema(options?: KoaRouteSchemaOptions): KoaRouteSchema
 
