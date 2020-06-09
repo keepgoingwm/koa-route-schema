@@ -2,4 +2,4 @@
 
 ## params validate
 
-+ schema type
++ register new schema type(like Headers schema validate)
