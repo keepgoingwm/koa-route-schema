@@ -1,6 +1,6 @@
 {
   "name": "koa-route-schema",
-  "version": "0.0.1",
+  "version": "0.0.2-0",
   "description": "koa middleware to apply jsonschema with route",
   "main": "index.js",
   "types": "index.d.ts",
