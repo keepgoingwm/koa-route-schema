@@ -62,6 +62,9 @@ var defaultOptions = {
 /**
  * KoaRouteSchema class
  *
+ * @class KoaRouteSchema
+ * @constructor
+ *
  * @param {Object} options
  * @param {Object} options.ajv ajv options
  * @param {Object} options.schemaOptions provide schemaOptions in constructor
@@ -83,6 +86,8 @@ function KoaRouteSchema(options) {
 
 /**
  * generate schema validate middleware
+ *
+ * @example
  *
  * handle errors Example
  * ```js
@@ -131,6 +136,9 @@ KoaRouteSchema.prototype.genMiddlewareFromSchema = function(bodySchema, querySch
 
 /**
  * load schema
+ *
+ * @example
+ *
  * ```
  *  schema.loadSchemaOptions([{
  *    route: 'test/:id',
@@ -190,7 +198,16 @@ KoaRouteSchema.prototype.loadSchemaOptions = function(schemaOptions) {
  * ######################################
  * mode one: standalone middleware
  * low performance
+ * ######################################
+ */
+
+/**
+ * get middleware globally, built-in route check, can work without other route system
  *
+ * @param {Object} bodySchema
+ * @param {Object} bodySchema
+ * @returns {Koa.Middleware}
+ * @api public
  */
 KoaRouteSchema.prototype.middleware = function middleware() {
   var _this = this
@@ -227,9 +244,17 @@ KoaRouteSchema.prototype.middleware = function middleware() {
  * ######################################
  * mode tow: attach to other router middleware
  * high performance, need `route in attached router` be same with `route in schemaOptions` exactly
- *
+ * ######################################
  */
 
+ /**
+ * get middleware globally, built-in route check, can work without other route system
+ *
+ * @param {Object} bodySchema
+ * @param {Object} bodySchema
+ * @returns {Koa.Middleware}
+ * @api public
+ */
 KoaRouteSchema.prototype.attachToRouter = function(router) {
   var _this = this
 
@@ -243,8 +268,7 @@ KoaRouteSchema.prototype.attachToRouter = function(router) {
  * to use the router on **Koa@1**,
  * otherwise use [.middleware](#middleware) method!
  *
- * **Example**
- *
+ * @example
  * ```js
  * ```
  *
@@ -262,12 +286,35 @@ KoaRouteSchema.prototype.legacyMiddleware = function legacyMiddleware() {
  * middleware for each route
  * #################################################################################
  */
+
+/**
+ * get middleware used with route middleware, to validate supplied schema
+ *
+ * @param {Object} bodySchema
+ * @param {Object} bodySchema
+ * @returns {Koa.Middleware}
+ * @api public
+ */
 KoaRouteSchema.prototype.routeMiddleware = function routeMiddleware(bodySchema, querySchema) {
   return this.genMiddlewareFromSchema(bodySchema, querySchema)
 }
+/**
+ * get middleware used with route middleware, to validate body schema
+ *
+ * @param {Object} schema
+ * @returns {Koa.Middleware}
+ * @api public
+ */
 KoaRouteSchema.prototype.routeBodyMiddleware = function routeMiddleware(schema) {
   return this.routeMiddleware(schema, null)
 }
+/**
+ * get middleware used with route middleware, to validate query schema
+ *
+ * @param {Object} schema
+ * @returns {Koa.Middleware}
+ * @api public
+ */
 KoaRouteSchema.prototype.routeQueryMiddleware = function routeMiddleware(schema) {
   return this.routeMiddleware(null, schema)
 }
