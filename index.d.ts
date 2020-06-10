@@ -20,6 +20,7 @@ declare namespace KoaRouteSchema {
 export interface KoaRouteSchemaOptions {
   ajv?: ajv.Options
   ajvErrors?: KoaRouteSchema.AjvErrorsOptions | boolean
+  ajvKeywords?: string | ReadonlyArray<string> | boolean
   parseSchemaOptions?: Record<string, unknown>
   getRoute?: KoaRouteSchema.parseFunc
   getMethod?: KoaRouteSchema.parseFunc

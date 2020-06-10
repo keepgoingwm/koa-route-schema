@@ -4,7 +4,8 @@ const schemaOptions = require('./schemaOptions')
 const schema = new RouteSchema({
   prefix: 'api',
   schemaOptions,
-  ajvErrors: {}
+  ajvErrors: {},
+  ajvKeywords: 'instanceof'
 })
 
 module.exports = schema

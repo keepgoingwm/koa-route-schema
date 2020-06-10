@@ -92,6 +92,9 @@ function KoaRouteSchema(options) {
   } else {
     this.ajv = new Ajv(this.options.ajv || {})
   }
+  if (this.options.ajvKeywords) {
+    utils.ajvKeywords(this.ajv, Array.isArray(this.options.ajvKeywords) || typeof this.options.ajvKeywords === 'string' ? this.options.ajvKeywords : null)
+  }
   this.route = utils.pathMatch({ prefix: '/' })
   this.routes = []
 

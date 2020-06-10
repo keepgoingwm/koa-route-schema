@@ -15,6 +15,7 @@
   "dependencies": {
     "@types/ajv": "^1.0.0",
     "@types/ajv-errors": "^1.0.2",
+    "@types/ajv-keywords": "^3.4.0",
     "@types/koa": "^2.11.3",
     "ajv": "^6.12.2",
     "ajv-errors": "^1.0.1",
@@ -32,7 +33,10 @@
     "schema",
     "jsonschema",
     "validate",
-    "validator"
+    "validator",
+    "ajv",
+    "body",
+    "query"
   ],
   "peerDependencies": {
     "koa": "^2.12.0",

@@ -21,6 +21,7 @@ yarn add koa-route-schema
 + built-in route handle, validate schema for each route stand-alone
 + work with other route system, support koa-better-route and koa-rest-route by default
 + add schema to each route handle separately
++ use ajv-errors, ajv-keywords easily, optionally
 + for same route, ... // todo
 
 ## Usage
@@ -136,6 +137,8 @@ router.post('/foobar', compose([
 var options = {
   prefix: 'v1',
   ajv: {},  // options passed to ajv constructor
+  ajvErrors: , // options directly pass to ajv-errors, you can also call ajv-errors to [instance].ajv
+  ajvKeywords: , // options directly pass to ajv-keywords, you can also call ajv-keywords to [instance].ajv
   schemaOptions: []
 
   parseSchemaOptions: null,  // [function]-parse real schemaOptions
