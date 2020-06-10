@@ -182,14 +182,23 @@ KoaRouteSchema.prototype.loadSchemaOptions = function(schemaOptions) {
 
     var prefixed = utils.createPrefix(_this.options.prefix, route)
     if (route && (bodySchema || querySchema)) {
-      _this.routes.push({
+      var routeOptions = {
         route: route,
         method: method.toUpperCase(),
         bodySchema: bodySchema,
         querySchema: querySchema,
         match: _this.route(prefixed),
         validateMiddleware: _this.genMiddlewareFromSchema(bodySchema, querySchema)
+      }
+
+      var idx = _this.routes.findIndex(function(e) {
+        return e.route === route
       })
+      if (idx > -1) {
+        _this.routes.splice(idx, 1, routeOptions)
+      } else {
+        _this.routes.push(routeOptions)
+      }
     }
   })
 }
@@ -247,7 +256,7 @@ KoaRouteSchema.prototype.middleware = function middleware() {
  * ######################################
  */
 
- /**
+/**
  * get middleware globally, built-in route check, can work without other route system
  *
  * @param {Object} bodySchema

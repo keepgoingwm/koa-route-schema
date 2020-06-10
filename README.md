@@ -130,8 +130,6 @@ router.post('/foobar', compose([
 ]))
 ```
 
-
-
 ## Options
 
 ```js
@@ -163,8 +161,6 @@ var options = {
   onError: null // [function]-handle validate error
 }
 ```
-
-### 
 
 ## API
 
