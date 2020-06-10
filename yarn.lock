@@ -89,6 +89,18 @@
   dependencies:
     "@types/node" "*"
 
+"@types/ajv-errors@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/ajv-errors/-/ajv-errors-1.0.2.tgz#963eadef9bfb51c47d110281433b626324a63329"
+  dependencies:
+    ajv "*"
+
+"@types/ajv@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/ajv/-/ajv-1.0.0.tgz#4fb2440742f2f6c30e7fb0797b839fc6f696682a"
+  dependencies:
+    ajv "*"
+
 "@types/body-parser@*":
   version "1.19.0"
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.19.0.tgz#0685b3c47eb3006ffed117cdd55164b61f80538f"
@@ -225,7 +237,7 @@ ajv-keywords@^3.4.1:
   version "3.4.1"
   resolved "http://10.158.249.13:4873/ajv-keywords/-/ajv-keywords-3.4.1.tgz#ef916e271c64ac12171fd8384eaae6b2345854da"
 
-ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.2:
+ajv@*, ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.2:
   version "6.12.2"
   resolved "http://10.158.249.13:4873/ajv/-/ajv-6.12.2.tgz#c629c5eced17baf314437918d2da88c99d5958cd"
   dependencies:

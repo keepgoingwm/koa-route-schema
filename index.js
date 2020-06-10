@@ -59,6 +59,14 @@ var defaultOptions = {
   }
 }
 
+var defaultAjvOnError = function(err, ctx) {
+  if (err.message === 'RouteSchemaErrors') {
+    ctx.throw(400, ctx.routeSchemaErrors.map(function(e) { return e.message }).join(', '))
+  } else {
+    throw err
+  }
+}
+
 /**
  * KoaRouteSchema class
  *
@@ -67,6 +75,7 @@ var defaultOptions = {
  *
  * @param {Object} options
  * @param {Object} options.ajv ajv options
+ * @param {Object} options.ajvErrors ajv-errors options, if exist, apply ajv-errors to ajv
  * @param {Object} options.schemaOptions provide schemaOptions in constructor
  */
 function KoaRouteSchema(options) {
@@ -75,7 +84,14 @@ function KoaRouteSchema(options) {
   }
 
   this.options = utils.extend(defaultOptions, options)
-  this.ajv = new Ajv(this.options.ajv || {})
+  // apply ajv-errors
+  if (this.options.ajvErrors) {
+    this.ajv = new Ajv(utils.extend(this.options.ajv || {}, { allErrors: true, jsonPointers: true }))
+    utils.ajvErrors(this.ajv, typeof this.options.ajvErrors === 'object' ? this.options.ajvErrors : null)
+    this.options.onError = typeof options.onError === 'function' ? options.onError : defaultAjvOnError
+  } else {
+    this.ajv = new Ajv(this.options.ajv || {})
+  }
   this.route = utils.pathMatch({ prefix: '/' })
   this.routes = []
 
@@ -266,6 +282,9 @@ KoaRouteSchema.prototype.middleware = function middleware() {
  */
 KoaRouteSchema.prototype.attachToRouter = function(router) {
   var _this = this
+  if (!utils.samePrefix(this.options.prefix, router.options.prefix)) {
+    console.warn(`[koa-route-schema] call attachToRouter, but prefix ${this.options.prefix} diffrent from router prefix {router.options.prefix}`)
+  }
 
   this.routes.forEach(function(route) {
     _this.options.attachRoute(router, route)

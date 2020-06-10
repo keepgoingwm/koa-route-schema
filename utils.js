@@ -16,6 +16,9 @@ require('ajv-errors')
 require('ajv-keywords')
 require = fn // eslint-disable-line no-undef, no-native-reassign, no-global-assign
 
+utils.samePrefix = function samePrefix(a, b) {
+  return a.indexOf(b) > -1 || b.indexOf(a) > -1
+}
 
 utils.createPrefix = function createPrefix(prefix, pathname) {
   var path = pathname.replace(/^\/|\/$/, '')

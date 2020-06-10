@@ -1,4 +1,5 @@
 import * as Koa from 'koa'
+import ajv from 'ajv'
 
 // plugin to Koa.Context
 declare module 'koa' {
@@ -11,8 +12,14 @@ declare namespace KoaRouteSchema {
   export interface parseFunc {
     (o: Record<string, unknown>)
   }
+  export interface AjvErrorsOptions {
+    keepErrors?: boolean,
+    singleError?: boolean
+  }
 }
 export interface KoaRouteSchemaOptions {
+  ajv?: ajv.Options
+  ajvErrors?: KoaRouteSchema.AjvErrorsOptions | boolean
   parseSchemaOptions?: Record<string, unknown>
   getRoute?: KoaRouteSchema.parseFunc
   getMethod?: KoaRouteSchema.parseFunc
@@ -26,7 +33,7 @@ export interface KoaRouteSchemaOptions {
   bodyErrorPrefix?: string
   queryErrorPrefix?: string
 
-  onError?(err: Error, ctx: Koa.Context)
+  onError?: (err: Error, ctx: Koa.Context) => any | boolean
 }
 
 
