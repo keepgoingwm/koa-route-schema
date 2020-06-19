@@ -8,10 +8,23 @@
   "author": "Awam Wang <@keepgoingwm> (https://keepgoingwm.github.io/)",
   "license": "MIT",
   "scripts": {
+    "commit": "git-cz",
     "lint": "eslint index.js utils.js ./examples",
     "lint:fix": "eslint index.js utils.js ./examples --fix",
     "test": "echo 'test'"
   },
+  "keywords": [
+    "koa",
+    "middleware",
+    "route",
+    "schema",
+    "jsonschema",
+    "validate",
+    "validator",
+    "ajv",
+    "body",
+    "query"
+  ],
   "dependencies": {
     "@types/ajv": "^1.0.0",
     "@types/ajv-errors": "^1.0.2",
@@ -26,18 +39,6 @@
     "lazy-cache": "^2.0.2",
     "path-match": "^1.2.4"
   },
-  "keywords": [
-    "koa",
-    "middleware",
-    "route",
-    "schema",
-    "jsonschema",
-    "validate",
-    "validator",
-    "ajv",
-    "body",
-    "query"
-  ],
   "peerDependencies": {
     "koa": "^2.12.0",
     "koa-body": "^4.1.3"
@@ -45,6 +46,8 @@
   "devDependencies": {
     "@types/koa-convert": "^1.2.3",
     "babel-eslint": "^10.1.0",
+    "commitizen": "^4.1.2",
+    "cz-conventional-changelog": "^3.2.0",
     "eslint": "^7.1.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.20.2",
@@ -55,5 +58,10 @@
     "koa-better-router": "^2.1.1",
     "koa-body": "^4.1.3",
     "koa-route-schema-yapi": "^0.0.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
   }
 }
