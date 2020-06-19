@@ -50,18 +50,12 @@ var defaultOptions = {
   bodyErrorPrefix: 'body: ',
   queryErrorPrefix: 'query: ',
 
-  onError: function(err, ctx) {
-    if (err.message === 'RouteSchemaErrors') {
-      ctx.throw(400, ctx.routeSchemaErrors.map(function(e) { return e.message }).join(', '))
-    } else {
-      throw err
-    }
-  }
+  onError: null
 }
 
-var defaultAjvOnError = function(err, ctx) {
+var defaultAjvOnError = function(err, ctx, errorsText) {
   if (err.message === 'RouteSchemaErrors') {
-    ctx.throw(400, ctx.routeSchemaErrors.map(function(e) { return e.message }).join(', '))
+    ctx.throw(400, errorsText)
   } else {
     throw err
   }
@@ -133,13 +127,15 @@ KoaRouteSchema.prototype.genMiddlewareFromSchema = function(bodySchema, querySch
 
       if (!valid) {
         var errorPrefix = type === 'body' ? _this.options.bodyErrorPrefix : _this.options.queryErrorPrefix
-        ctx.routeSchemaErrors = validate.errors.map(function(err) {
-          err.message = errorPrefix + err.message
-          return err
-        })
+        if (_this.options.locale) {
+          utils.localize[_this.options.locale](validate.errors)
+        }
+        ctx.routeSchemaErrors = validate.errors
+        ctx.routeSchemaValidate = validate
+        var errorsText = _this.ajv.errorsText(validate.errors, { separator: '\n', dataVar: errorPrefix })
 
         if (typeof _this.options.onError === 'function') {
-          _this.options.onError(new Error('RouteSchemaErrors'), ctx)
+          _this.options.onError(new Error('RouteSchemaErrors'), ctx, errorsText)
         } else {
           throw new Error('RouteSchemaErrors')
         }

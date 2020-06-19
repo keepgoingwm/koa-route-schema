@@ -264,6 +264,10 @@ ajv-errors@^1.0.1:
   version "1.0.1"
   resolved "http://10.158.249.13:4873/ajv-errors/-/ajv-errors-1.0.1.tgz#f35986aceb91afadec4102fbd85014950cefa64d"
 
+ajv-i18n@^3.5.0:
+  version "3.5.0"
+  resolved "https://r.cnpmjs.org/ajv-i18n/download/ajv-i18n-3.5.0.tgz#63235ebc8779ac50cfa320aa123d93a0d6911b00"
+
 ajv-keywords@^3.4.1:
   version "3.4.1"
   resolved "http://10.158.249.13:4873/ajv-keywords/-/ajv-keywords-3.4.1.tgz#ef916e271c64ac12171fd8384eaae6b2345854da"

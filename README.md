@@ -22,7 +22,7 @@ yarn add koa-route-schema
 + work with other route system, support koa-better-route and koa-rest-route by default
 + add schema to each route handle separately
 + use ajv-errors, ajv-keywords easily, optionally
-+ for same route, ... // todo
++ for same route
 
 ## Usage
 
@@ -35,6 +35,7 @@ trans schema list to `schemaOptions` and new `KoaRouteSchema` instance.
 ```js
 let routeschema = KoaRouteSchema({
   prefix: "v1",
+  locale: 'en',
   schemaOptions: [
     {
       route: "/docs/:id",
@@ -137,8 +138,9 @@ router.post('/foobar', compose([
 var options = {
   prefix: 'v1',
   ajv: {},  // options passed to ajv constructor
-  ajvErrors: , // options directly pass to ajv-errors, you can also call ajv-errors to [instance].ajv
-  ajvKeywords: , // options directly pass to ajv-keywords, you can also call ajv-keywords to [instance].ajv
+  ajvErrors: undefined, // options directly pass to ajv-errors, you can also call ajv-errors to [instance].ajv
+  ajvKeywords: undefined, // options directly pass to ajv-keywords, you can also call ajv-keywords to [instance].ajv
+  locale: undefined, // local pass to ajv-i18n
   schemaOptions: []
 
   parseSchemaOptions: null,  // [function]-parse real schemaOptions
@@ -191,3 +193,36 @@ get middleware used with route middleware, to validate body schema
 ### KoaRouteSchema.prototype.routeQueryMiddleware
 
 get middleware used with route middleware, to validate query schema
+
+## Advanced
+
+### handle validate error
+
+default handler is:
+
+```js
+var defaultAjvOnError = function(err, ctx, errorsText) {
+  if (err.message === 'RouteSchemaErrors') {
+    ctx.throw(400, errorsText)
+  } else {
+    throw err
+  }
+}
+
+var errorsText = _this.ajv.errorsText(validate.errors, { separator: '\n', dataVar: errorPrefix })
+```
+
+you can use custom handler by pass `onError` options.
+
+```js
+new RouteSchema({
+  onError: function (err, ctx, errorsText) {/* something */}
+})
+```
+
+more validate information placed at `ctx.routeSchemaErrors` and `ctx.routeSchemaValidate`
+
+```js
+ctx.routeSchemaErrors = validate.errors
+ctx.routeSchemaValidate = validate
+```

@@ -32,6 +32,7 @@
     "@types/koa": "^2.11.3",
     "ajv": "^6.12.2",
     "ajv-errors": "^1.0.1",
+    "ajv-i18n": "^3.5.0",
     "ajv-keywords": "^3.4.1",
     "extend-shallow": "^3.0.2",
     "koa-compose": "^4.1.0",

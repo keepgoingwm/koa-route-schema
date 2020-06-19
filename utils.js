@@ -14,6 +14,7 @@ require('koa-compose', 'compose')
 require('koa-convert', 'convert')
 require('ajv-errors')
 require('ajv-keywords')
+require('ajv-i18n', 'localize')
 require = fn // eslint-disable-line no-undef, no-native-reassign, no-global-assign
 
 utils.samePrefix = function samePrefix(a, b) {
