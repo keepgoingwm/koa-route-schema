@@ -19,10 +19,10 @@ yarn add koa-route-schema
 ## Features
 
 + built-in route handle, validate schema for each route stand-alone
-+ work with other route system, support koa-better-route and koa-rest-route by default
-+ add schema to each route handle separately
++ validate data in query/body, auto select base on HTTP METHOD, or 
++ work fine with other route system, support [koa-rest-router](https://github.com/tunnckocore/koa-rest-router) and [koa-better-router](https://github.com/tunnckoCore/koa-better-router) by default
++ also supported: add schema to each route handle separately
 + use ajv-errors, ajv-keywords easily, optionally
-+ for same route
 
 ## Usage
 
@@ -158,7 +158,7 @@ var options = {
 
   getData: null,  // [function]-get data to validate from koa context
 
-  attachRoute: null,  // [function]-attach middleware to router item, support koa-better-route and koa-rest-route by default
+  attachRoute: null,  // [function]-attach middleware to router item, support koa-better-route and koa-rest-router by default
 
   bodyErrorPrefix: 'body: ',
   queryErrorPrefix: 'query: ',
